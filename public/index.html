@@ -14,6 +14,62 @@
   <!-- ===== SCREEN: AUTH (LOGIN/REGISTER) ===== -->
   <div id="screen-auth" class="screen active">
     <div class="auth-container pixel-border">
+      <!-- Pixel Logo: Gen(circuit) × Compass(ancient) -->
+      <div class="auth-logo">
+        <svg class="auth-logo-svg" viewBox="0 0 440 80" preserveAspectRatio="xMidYMid meet">
+          <!-- Circuit Icon (Gen) -->
+          <g>
+            <rect x="10" y="13" width="54" height="54" fill="none" stroke="currentColor" stroke-width="3"/>
+            <rect x="18" y="21" width="10" height="10" fill="currentColor"/>
+            <rect x="46" y="21" width="10" height="10" fill="currentColor"/>
+            <rect x="18" y="49" width="10" height="10" fill="currentColor"/>
+            <rect x="46" y="49" width="10" height="10" fill="currentColor"/>
+            <rect x="28" y="25" width="18" height="3" fill="currentColor"/>
+            <rect x="22" y="31" width="3" height="18" fill="currentColor"/>
+            <rect x="28" y="52" width="18" height="3" fill="currentColor"/>
+            <rect x="31" y="34" width="12" height="12" fill="currentColor"/>
+          </g>
+
+          <!-- Gen Text -->
+          <text x="100" y="50" font-family="'Press Start 2P', monospace" font-size="20" fill="currentColor">Gen</text>
+
+          <!-- Fusion Symbol (+) -->
+          <g transform="translate(155, 24)">
+            <rect x="8" y="0" width="5" height="28" fill="currentColor"/>
+            <rect x="0" y="11" width="21" height="5" fill="currentColor"/>
+          </g>
+
+          <!-- Ancient Compass Icon (Compass) -->
+          <g transform="translate(190, 10)">
+            <!-- Outer pixelated ring -->
+            <rect x="14" y="0" width="16" height="3" fill="currentColor"/>
+            <rect x="6" y="5" width="6" height="3" fill="currentColor"/>
+            <rect x="32" y="5" width="6" height="3" fill="currentColor"/>
+            <rect x="0" y="12" width="4" height="3" fill="currentColor"/>
+            <rect x="40" y="12" width="4" height="3" fill="currentColor"/>
+            <rect x="0" y="20" width="3" height="8" fill="currentColor"/>
+            <rect x="41" y="20" width="3" height="8" fill="currentColor"/>
+            <rect x="0" y="32" width="4" height="3" fill="currentColor"/>
+            <rect x="40" y="32" width="4" height="3" fill="currentColor"/>
+            <rect x="6" y="37" width="6" height="3" fill="currentColor"/>
+            <rect x="32" y="37" width="6" height="3" fill="currentColor"/>
+            <rect x="14" y="42" width="16" height="3" fill="currentColor"/>
+            <!-- Inner crosshair -->
+            <rect x="20" y="8" width="4" height="28" fill="currentColor"/>
+            <rect x="6" y="20" width="32" height="4" fill="currentColor"/>
+            <!-- Compass needle (diamond) -->
+            <polygon points="22,10 26,22 22,34 18,22" fill="currentColor"/>
+            <!-- North marker -->
+            <rect x="20" y="4" width="4" height="4" fill="currentColor"/>
+          </g>
+
+          <!-- Compass Text -->
+          <text x="255" y="50" font-family="'Press Start 2P', monospace" font-size="20" fill="currentColor">Compass</text>
+        </svg>
+      </div>
+      <!-- Intro text with typewriter effect -->
+      <div class="auth-intro" id="auth-intro"></div>
+
       <h2 class="section-title">◆ 系 统 登 录 ◆</h2>
       <div class="auth-form">
         <div class="form-group">

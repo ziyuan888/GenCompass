@@ -982,6 +982,36 @@
     dom.mobilePanelOverlay.style.display = 'none';
   }
 
+  // --- Typewriter Intro Effect ---
+  function startTypewriter() {
+    const introEl = document.getElementById('auth-intro');
+    if (!introEl) return;
+
+    // Skip animation if already played this session
+    if (sessionStorage.getItem('gc_intro_played')) {
+      introEl.innerHTML = '玩家将作为"全息系统游戏"的第一批体验者，在随机生成的世界观（修仙、赛博、无限流等）和系统设定（好感度、万人迷、龙傲天等）中，体验高自由度的角色扮演。你的每一个选择都将直接影响世界走向<span class="auth-intro-cursor">_</span>';
+      return;
+    }
+
+    const text = '玩家将作为"全息系统游戏"的第一批体验者，在随机生成的世界观（修仙、赛博、无限流等）和系统设定（好感度、万人迷、龙傲天等）中，体验高自由度的角色扮演。你的每一个选择都将直接影响世界走向';
+    let i = 0;
+
+    function type() {
+      if (i < text.length) {
+        introEl.textContent = text.substring(0, i + 1);
+        introEl.innerHTML += '<span class="auth-intro-cursor">_</span>';
+        i++;
+        const delay = 18 + Math.random() * 22;
+        setTimeout(type, delay);
+      } else {
+        introEl.innerHTML = text + '<span class="auth-intro-cursor">_</span>';
+        sessionStorage.setItem('gc_intro_played', '1');
+      }
+    }
+
+    setTimeout(type, 400);
+  }
+
   function init() {
     // Auth
     dom.btnLogin.addEventListener('click', () => performAuth('login'));
@@ -1057,6 +1087,7 @@
       showScreen('menu');
     } else {
       showScreen('auth');
+      startTypewriter();
     }
   });
 })();

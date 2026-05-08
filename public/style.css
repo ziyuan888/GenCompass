@@ -242,6 +242,34 @@ html, body {
    AUTH SCREEN
    ============================================= */
 
+.auth-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.auth-logo-svg {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  color: var(--fg);
+}
+
+.auth-intro {
+  font-family: var(--font-pixel);
+  font-size: var(--font-size-sm);
+  line-height: 2.2;
+  text-align: center;
+  margin-bottom: 20px;
+  min-height: 110px;
+  color: var(--fg);
+  opacity: 0.85;
+}
+
+.auth-intro-cursor {
+  animation: blink-anim 1s step-end infinite;
+}
+
 #screen-auth {
   align-items: center;
   justify-content: center;
