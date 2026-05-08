@@ -37,7 +37,7 @@
 - **前端**：Vanilla HTML / CSS / JS (零框架)，纯手写 1-bit 像素 UI 及媒体查询响应式布局。
 - **后端**：Node.js + Express
 - **数据库**：SQLite3（轻量级本地存储方案）
-- **AI 接口**：标准的大语言模型 API（默认使用类似 OpenAI 格式的流式接口，代码中可通过调整 API_KEY 接入各类主流模型）
+- **AI 接口**：兼容 **OpenAI API 格式** 的任意大语言模型接口（官方 OpenAI、DeepSeek、Kimi、智谱、SiliconFlow、OneAPI 中转、本地 Ollama/vLLM 等均可接入）
 
 ---
 
@@ -90,7 +90,7 @@ npm install
 
 ### 4. 配置环境变量
 
-本项目需要调用大语言模型 API，因此需要配置 API 密钥。
+本项目使用官方的 `openai` SDK 调用大模型，**兼容所有支持 OpenAI API 格式的平台**。你只需要配置接口地址、密钥和模型名即可，无需修改任何代码。
 
 **步骤：**
 
@@ -103,22 +103,30 @@ npm install
    New-Item .env
    ```
 
-2. 用任意文本编辑器打开 `.env`，填入你的 API 密钥：
+2. 用任意文本编辑器打开 `.env`，填入你的 API 配置：
    ```env
-   OPENAI_API_KEY=sk-你的API密钥
+   API_KEY=sk-你的API密钥
+   API_BASE_URL=https://api.openai.com/v1
+   MODEL=gpt-4o
    ```
 
    > 🔑 **如何获取 API 密钥？**
-   > - 如果你使用 OpenAI 官方接口，前往 [platform.openai.com](https://platform.openai.com/api-keys) 创建密钥。
-   > - 如果你使用第三方中转 API（如 DeepSeek、SiliconFlow、OneAPI 等），请使用对应平台提供的密钥。
+   > - 如果你使用 **OpenAI 官方**，前往 [platform.openai.com](https://platform.openai.com/api-keys) 创建密钥。
+   > - 如果你使用 **国内第三方平台**（DeepSeek、Kimi、智谱、SiliconFlow 等），请前往对应平台官网获取密钥。
 
-3. （可选）如果你使用的不是 OpenAI 官方地址，还需要修改 `server.js` 中的 `baseURL`：
-   ```js
-   const openai = new OpenAI({
-     apiKey: process.env.OPENAI_API_KEY,
-     baseURL: 'https://你的自定义接口地址/v1',  // ← 修改这里
-   });
-   ```
+3. **根据你的平台修改 `.env` 中的值**，常见示例如下：
+
+   | 平台 | `.env` 配置示例 |
+   |------|----------------|
+   | **OpenAI 官方** | `API_KEY=sk-xxx`<br>`API_BASE_URL=https://api.openai.com/v1`<br>`MODEL=gpt-4o` |
+   | **DeepSeek** | `API_KEY=sk-xxx`<br>`API_BASE_URL=https://api.deepseek.com/v1`<br>`MODEL=deepseek-chat` |
+   | **Kimi (Moonshot)** | `API_KEY=sk-xxx`<br>`API_BASE_URL=https://api.moonshot.cn/v1`<br>`MODEL=moonshot-v1-8k` |
+   | **智谱 AI (GLM)** | `API_KEY=xxx`<br>`API_BASE_URL=https://open.bigmodel.cn/api/paas/v4`<br>`MODEL=glm-4` |
+   | **SiliconFlow** | `API_KEY=sk-xxx`<br>`API_BASE_URL=https://api.siliconflow.cn/v1`<br>`MODEL=deepseek-ai/DeepSeek-V3` |
+   | **OneAPI / NewAPI 中转** | `API_KEY=sk-xxx`<br>`API_BASE_URL=https://你的中转地址/v1`<br>`MODEL=你配置的模型名` |
+   | **本地 Ollama** | `API_KEY=ollama`<br>`API_BASE_URL=http://localhost:11434/v1`<br>`MODEL=qwen2.5:7b` |
+
+   > ⚠️ **前提条件**：所选平台必须支持**流式输出**（`stream: true`），因为前端使用 SSE 实时推送内容。绝大多数主流平台均支持。
 
 ---
 
