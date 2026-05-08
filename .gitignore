@@ -3,4 +3,3 @@ node_modules/
 data/saves/
 data/users.db
 .DS_Store
-docs/

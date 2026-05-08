@@ -5,13 +5,13 @@
 
 这是一款基于大语言模型（LLM）驱动的 **1-bit 像素风全息系统文字冒险游戏（AVG/RPG）**。
 
-玩家将作为“全息系统游戏”的第一批体验者，在随机生成的世界观（修仙、赛博、无限流等）和系统设定（好感度、万人迷、龙傲天等）中，体验高自由度的角色扮演。你的每一个选择都将直接影响世界走向，并在约 50 轮的交互后达成多重结局（S/A/B/C/隐藏结局）。
+玩家将作为"全息系统游戏"的第一批体验者，在随机生成的世界观（修仙、赛博、无限流等）和系统设定（好感度、万人迷、龙傲天等）中，体验高自由度的角色扮演。你的每一个选择都将直接影响世界走向，并在约 50 轮的交互后达成多重结局（S/A/B/C/隐藏结局）。
 
 ---
 
 ## 🌟 核心特性
 
-- 🧠 **AI 动态推演**：摒弃传统文字游戏固定的预设脚本，完全由 LLM 扮演“001号系统”及所有 NPC，实时生成符合人设逻辑的剧情与任务。
+- 🧠 **AI 动态推演**：摒弃传统文字游戏固定的预设脚本，完全由 LLM 扮演"001号系统"及所有 NPC，实时生成符合人设逻辑的剧情与任务。
 - 🎭 **Roguelite 副本机制**：每次开局随机抽取世界观与系统外挂。单局控制在约 50 个回合左右，具备完整的起承转合与节奏控制。
 - 🏆 **多结局与成就系统**：根据玩家通关时的表现判定结局评级。内置 SQLite 数据库，持久化记录通关数据，解锁成就并在「副本图鉴」中点亮世界。
 - 📱 **极致的双端适配**：
@@ -44,28 +44,115 @@
 ## 🚀 快速开始
 
 ### 1. 环境要求
-- Node.js (v18 或更高版本)
-- npm 或 yarn
 
-### 2. 克隆与安装
+- **Node.js** (v18 或更高版本)
+- **npm** 或 **yarn**（Node.js 安装时会自带 npm）
+
+> 不知道自己有没有安装？在终端输入以下命令检查：
+> ```bash
+> node -v
+> npm -v
+> ```
+> 如果显示版本号（如 `v20.12.0`），说明已安装。如果没有，请先前往 [nodejs.org](https://nodejs.org/) 下载安装 LTS 版本。
+
+---
+
+### 2. 克隆项目到本地
+
+打开终端（Windows 用户请使用 PowerShell 或 Git Bash），执行：
+
 ```bash
-git clone https://github.com/your-username/GenCompass.git
+git clone https://github.com/ziyuan888/GenCompass.git
 cd GenCompass
+```
+
+> 如果提示 `git: command not found`，请先安装 [Git](https://git-scm.com/downloads)。
+
+---
+
+### 3. 安装依赖
+
+在项目根目录（也就是 `GenCompass` 文件夹内）执行：
+
+```bash
 npm install
 ```
 
-### 3. 配置环境变量
-在项目根目录创建一个 `.env` 文件，填入你的大模型 API 密钥：
-```env
-OPENAI_API_KEY=sk-你的API密钥
-# 如果需要使用自定义的 API 代理地址，请在 server.js 中自行修改 baseURL
-```
+这会读取 `package.json`，自动下载所有需要的 Node.js 模块到 `node_modules/` 文件夹中。第一次安装可能需要 1~3 分钟，取决于网络速度。
 
-### 4. 启动服务
+> 💡 如果安装过程中出现权限错误（如 `EACCES`），可以尝试：
+> ```bash
+> sudo npm install
+> ```
+> 或者参考 [npm 官方文档](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) 修复权限。
+
+---
+
+### 4. 配置环境变量
+
+本项目需要调用大语言模型 API，因此需要配置 API 密钥。
+
+**步骤：**
+
+1. 在项目根目录创建一个名为 `.env` 的文本文件：
+   ```bash
+   # macOS / Linux
+   touch .env
+
+   # Windows (PowerShell)
+   New-Item .env
+   ```
+
+2. 用任意文本编辑器打开 `.env`，填入你的 API 密钥：
+   ```env
+   OPENAI_API_KEY=sk-你的API密钥
+   ```
+
+   > 🔑 **如何获取 API 密钥？**
+   > - 如果你使用 OpenAI 官方接口，前往 [platform.openai.com](https://platform.openai.com/api-keys) 创建密钥。
+   > - 如果你使用第三方中转 API（如 DeepSeek、SiliconFlow、OneAPI 等），请使用对应平台提供的密钥。
+
+3. （可选）如果你使用的不是 OpenAI 官方地址，还需要修改 `server.js` 中的 `baseURL`：
+   ```js
+   const openai = new OpenAI({
+     apiKey: process.env.OPENAI_API_KEY,
+     baseURL: 'https://你的自定义接口地址/v1',  // ← 修改这里
+   });
+   ```
+
+---
+
+### 5. 启动服务
+
 ```bash
 npm run dev
 ```
-服务器启动后，打开浏览器访问：`http://localhost:3000`
+
+如果看到类似下面的输出，说明启动成功：
+
+```
+> gencompass@1.0.0 dev
+> node server.js
+
+Server running on http://localhost:3000
+```
+
+> 💡 如果端口 `3000` 被占用，可以在 `server.js` 中修改端口号，或者设置环境变量：
+> ```bash
+> PORT=8080 npm run dev
+> ```
+
+---
+
+### 6. 打开游戏
+
+在浏览器中访问：
+
+```
+http://localhost:3000
+```
+
+推荐使用 **Chrome**、**Edge** 或 **Firefox** 浏览器以获得最佳体验。
 
 ---
 
@@ -75,7 +162,6 @@ npm run dev
 ├── data/                  # SQLite 数据库及存档 JSON 存储目录
 │   └── users.db           # (自动生成) 用户账号与成就记录
 ├── docs/
-│   ├── plans/             # 项目开发过程中的设计文档与架构图
 │   └── prompt.txt         # 核心 System Prompt (AI 调教指北)
 ├── public/                # 纯前端静态资源
 │   ├── index.html         # 单页应用入口
